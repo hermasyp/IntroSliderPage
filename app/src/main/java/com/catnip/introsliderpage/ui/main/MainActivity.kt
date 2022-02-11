@@ -84,30 +84,41 @@ class MainActivity : AppCompatActivity() {
             }
         }
         binding.tvPrevious.setOnClickListener {
+            //checking validity
             if (getPreviousIndex() != -1) {
                 binding.vpIntro.setCurrentItem(getPreviousIndex(), true)
             }
         }
     }
 
+    //0,1,2,3
+    // currentPage = 0
+    // previous index =
+
     private fun getPreviousIndex(): Int {
         val currentPage = binding.vpIntro.currentItem //0
-        return if (currentPage - 1 >= 0) {
+        return if (currentPage - 1 >= 0) { // 0 - 1 = -1 , x >= 0
             currentPage - 1
         } else {
             -1 // unselected index , index always start by 0
         }
     }
 
+    //0,1,2,3 = 4 pages
+    // maxPages = 4
+    // currentIndex = 3
+    // 3 + 1 = 4, x = 4 , x < maxPages ?
     private fun getNextIndex(): Int {
-        val maxPages = binding.vpIntro.adapter?.itemCount // 4
-        val currentIndex = binding.vpIntro.currentItem // 4
-        var selectedIndex = -1 //unselected index
-        maxPages?.let {
+        val maxPages = binding.vpIntro.adapter?.itemCount ?: -1
+        val currentIndex = binding.vpIntro.currentItem //
+        return if (maxPages != -1) {
             if (currentIndex + 1 < maxPages) { // 4+1 = 5
-                selectedIndex = currentIndex + 1
+                currentIndex + 1
+            } else {
+                -1
             }
+        } else {
+            -1
         }
-        return selectedIndex // -1
     }
 }
